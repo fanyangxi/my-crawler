@@ -1,0 +1,17 @@
+autobahn==0.10.4
+beautifulsoup4==4.5.1
+bs4==0.0.1
+ImageHash==1.0
+matplotlib==1.5.1
+numpy==1.10.4
+openface==0.2.1
+pandas==0.17.1
+Pillow==3.1.1
+protobuf==2.6.1
+scikit-learn==0.17.1
+scipy==0.16.1
+selenium==2.53.6
+Twisted==15.2.1
+txaio==2.2.1
+wheel==0.26.0
+zope.interface==4.1.3
