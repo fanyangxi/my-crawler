@@ -16,5 +16,7 @@ $ pip install -r requirements.txt
 
 
 
+### How to RUN, at the repo-root:
+$ python main.py
 
 +
