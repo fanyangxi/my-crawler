@@ -1,0 +1,43 @@
+http://xa.anjuke.com/sale/
+http://esf.xian.fang.com/
+
+http://xa.anjuke.com/sale/rd1?from=zjsr&kw=紫薇臻品
+
+PhantomJS
+
+
+### self.driver.window_handles[1]
+u'CDwindow-46d5e41c-7d83-4aef-8e73-7325d05ffc29'
+
+
+### run unittests CLI
+python -m unittest src.crawlers.anjuke_crawler.AnjukeCrawlerTest
+python -m unittest src.crawlers.anjuke_crawler
+
+
+###
+: cls.driver = webdriver.PhantomJS("/usr/local/Cellar/phantomjs/2.1.1/bin/phantomjs")
+: cls.driver = webdriver.Chrome("/usr/local/Cellar/chromedriver/2.19/bin/chromedriver")
+cls.driver = webdriver.Chrome(
+        "/usr/local/Cellar/chromedriver/2.19/bin/chromedriver",
+        chrome_options=ChromeOptions()
+)
+
+
+### Python
+# map(__import__, unittest_module_names)
+# sys.modules[module_full_name]
+
+
+
+
+
+
+
+
+
+
+
+
+
++
