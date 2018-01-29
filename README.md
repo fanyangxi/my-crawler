@@ -1,8 +1,16 @@
 ### my-crawler
-x
 
+Database: MongoDB,
+Data Visualization: MongoDB Compass, (https://www.mongodb.com/products/compass)
+https://redash.io/data-sources/mongodb
+https://scalegrid.io/blog/data-visualization-using-apache-zeppelin/
 
 ### To prepare & run the project:
+
+# Install pip3:
+$ yum install python34
+$ yum install python34-setuptools
+$ python3 -m pip install -U --force-reinstall pip
 
 # To install the chromedriver
 $ brew install chromedriver
@@ -10,13 +18,14 @@ $ brew install chromedriver
 # To find the path to chromedriver
 Usually: /usr/local/Cellar/chromedriver/2.19/bin/chromedriver
 
+# To install the requirements
+$ pip3 install -r requirements.txt
 
-### To install the requirements
-$ pip install -r requirements.txt
-
-
-
-### How to RUN, at the repo-root:
+# How to RUN, at the repo-root:
 $ python main.py
+
+
+
+
 
 +

@@ -2,7 +2,7 @@ import argparse
 import os
 import random
 import time
-import urlparse
+import urlparse2
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -14,8 +14,7 @@ class LinkedInCrawl:
         pass
 
     def do_some_thing(self):
-        print "The name is: {0} {1}".format('Yangxi', 'FAN')
-        pass
+        print ("The name is: {0} {1}".format("Yangxi", "FAN"))
 
 
 def start_crawling(linkedin_email, linkedin_password):
@@ -36,7 +35,7 @@ def start_crawling(linkedin_email, linkedin_password):
 
     os.system("clear")
 
-    print "[+] Success! Logged in, bot starting."
+    print ("[+] Success! Logged in, bot starting.")
     __view_bot(browser)
     browser.close()
 
@@ -72,11 +71,11 @@ def __view_bot(browser):
                     job = 'https://www.linkedin.com' + job
                 browser.get(job)
             else:
-                print "I'm lost, exiting!"
+                print ("I'm lost, exiting!")
                 break
         # Output, make option for this
-        print "[+] " + browser.title + "Visited! \n(" \
-              + str(count) + "/" + str(len(p_list)) + ") Visited/Queue"
+        print ("[+] " + browser.title + "Visited! \n(" \
+              + str(count) + "/" + str(len(p_list)) + ") Visited/Queue")
 
 
 def __get_people_links(page):
