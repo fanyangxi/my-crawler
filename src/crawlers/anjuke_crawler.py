@@ -24,6 +24,8 @@ class AnjukeCrawlerTest(unittest.TestCase):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
+        options.add_argument('--window-size=1920,1080')
+        options.add_argument('--no-sandbox')
         cls.driver = webdriver.Chrome(chrome_options=options)
         # self.addCleanup(self.browser.quit)
 

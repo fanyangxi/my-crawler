@@ -23,6 +23,7 @@ def executing_the_tests():
                              if (filename.startswith("") and filename.endswith("_crawler.py"))]
 
     for module_name in unittest_module_names:
+        print(module_name)
         module_full_name = '{0}{1}'.format(unittests_dir.replace("/", "."), module_name)
         module = __import__(module_full_name, fromlist=[module_name])
         suite.addTest(unittest.TestLoader().loadTestsFromModule(sys.modules[module_full_name]))
