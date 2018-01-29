@@ -51,7 +51,7 @@ class AnjukeCrawlerTest(unittest.TestCase):
         result_url = "https://xa.anjuke.com/sale/gaoxinquxian/b206/?from_area=80&to_area=140" #高新+面积80/140+三室
         self.driver.get(result_url)
 
-        file = open("anjuke-testfile-{0}.csv".format(datetime.now().isoformat(timespec='minutes')),"w")
+        file = open("anjuke-testfile-{0}.csv".format(datetime.now().strftime("%Y-%m-%d_%H-%M-%S")),"w")
         file.write(u'\ufeff')
 
         condition = True
