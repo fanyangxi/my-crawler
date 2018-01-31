@@ -25,7 +25,9 @@ $ pip3 install -r requirements.txt
 $ python main.py
 
 
+https://github.com/lojp/fangtianxia/blob/master/fangtianxiagithub.py
 
-
+Beautiful Soup 4 Cheatsheet | Akul's Blog
+http://akul.me/blog/2016/beautifulsoup-cheatsheet/
 
 +
