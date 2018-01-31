@@ -62,7 +62,7 @@ class FangDotcomCrawlerTest(unittest.TestCase):
             # Find element :house-list-item
             house_list_items = self.driver.find_elements_by_css_selector(self.HOUSE_LIST_ITEMS_CSS_LOCATOR)
 
-            for house_list_item in house_list_items[:3]: #house_list_items[:3]
+            for house_list_item in house_list_items: #house_list_items[:3]
 
                 pageItemCount += 1
                 # move to element
