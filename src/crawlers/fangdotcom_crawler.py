@@ -155,7 +155,7 @@ class FangDotcomCrawlerTest(unittest.TestCase):
 
     def __parse_house_info(self, soup, currentUrl):
 
-        title_css_selector = ["div.title.rel > div.floatl"]
+        title_css_selector = ["div.title.rel > div.floatl", "div.title.rel"]
         fa_bu_shi_jian_css_selector = ["div.content-item.fydes-item > div.cont.clearfix > div:nth-of-type(7) > span.rcont"]
         fang_wu_zong_jia_css_selector = ["div.tab-cont-right > div.tr-line.clearfix.zf_new_title > div.trl-item_top > div.trl-item.price_esf.sty1"]
 
