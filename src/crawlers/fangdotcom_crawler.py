@@ -40,77 +40,104 @@ class FangDotcomCrawlerTest(unittest.TestCase):
         self.HOUSE_LIST_ITEMS_CSS_LOCATOR = "div.houseList > dl.list.rel"
         self.HOUSE_ITEM_LINK_CSS_LOCATOR = "dd > p.title > a"
         self.NEXT_PAGE_ELEMENT_CSS_LOCATOR = "#PageControl1_hlk_next"
-        pass
+        # target_url = "http://esf.xian.fang.com/house-a0482/g23-j280-k2140-l3010/" #高新+面积80/140+三室
+        self.target_urls = [
+            "http://esf.xian.fang.com/integrate/g23-kw%cc%ec%b5%d8%d4%b4%b7%e3%c1%d6%c2%cc%d6%de/", #天地源枫林绿洲
+            "http://esf.xian.fang.com/integrate/g23-kw%d7%cf%de%b1%cc%ef%d4%b0%b6%bc%ca%d0/", #紫薇田园都市
+            "http://esf.xian.fang.com/integrate/g23-kw%c2%cc%b5%d8%ca%c0%bc%cd%b3%c7/", #绿地世纪城
+            "http://esf.xian.fang.com/integrate/g23-kw%d6%d0%bb%aa%ca%c0%bc%cd%b3%c7/", #中华世纪城
+            "http://esf.xian.fang.com/integrate/g23-kw%bd%f0%cc%a9%bc%d9%c8%d5%bb%a8%b3%c7/", #金泰假日花城
+            "http://esf.xian.fang.com/integrate/g23-kw%d2%dd%b4%e4%d4%b0/", #逸翠园
+            "http://esf.xian.fang.com/integrate/g23-kw%c1%d6%d2%fe%cc%ec%cf%c2/", #林隐天下
+            "http://esf.xian.fang.com/integrate/g23-kw%b7%e3%c1%d6%d2%e2%ca%f7/", #枫林意树
+            "http://esf.xian.fang.com/integrate/g23-kw%b3%c7%ca%d0%b7%e7%be%b0%cf%c4%c8%d5%be%b0%c9%ab/", #城市风景夏日景色
+            "http://esf.xian.fang.com/integrate/g23-kw%b7%e3%d2%b6%d0%c2%b6%bc%ca%d0/", #枫叶新都市
+            "http://esf.xian.fang.com/integrate/g23-kw%e7%cd%b7%d7%c4%cf%bf%a4/", #缤纷南郡
+            "http://esf.xian.fang.com/integrate/g23-kw%d7%cf%de%b1%d5%e9%c6%b7/", #紫薇臻品
+            "http://esf.xian.fang.com/integrate/g23-kw%b3%c7%ca%d0%b7%e7%be%b0%b6%bc%ca%d0%d3%a1%cf%f3/", #城市风景都市印象
+            "http://esf.xian.fang.com/integrate/g23-kw%cc%ec%c0%ca%c0%b6%ba%fe%ca%f7/", #天朗蓝湖树
+            "http://esf.xian.fang.com/integrate/g23-kw%ba%e3%b4%f3%b3%c7/", #恒大城
+            "http://esf.xian.fang.com/integrate/g23-kw%d2%d7%b5%c0%bf%a4%2b%c3%b5%b9%e5%b9%ab%b9%dd/", #易道郡+玫瑰公馆
+            "http://esf.xian.fang.com/integrate/g23-kw%b8%df%bf%c6%c9%d0%b6%bc/", #高科尚都
+            "http://esf.xian.fang.com/integrate/g23-kw%cd%fb%cd%a5%b9%fa%bc%ca/", #望庭国际
+            "http://esf.xian.fang.com/integrate/g23-kw%b8%df%bf%c6%c0%ca%c9%bd/", #高科朗山
+            "http://esf.xian.fang.com/integrate/g23-kw%bd%f5%b6%bc%bb%a8%d4%b0/", #锦都花园
+            "http://esf.xian.fang.com/house/c61-c7125302-kw%c1%d6%d2%fe%cc%ec%cf%c2/", #林隐天下
+            "http://esf.xian.fang.com/integrate/g23-kw%c9%d0%c6%b7%bb%a8%b6%bc/", #尚品花都
+            "http://esf.xian.fang.com/house/g23-kw%c8%da%b4%b4%cc%ec%c0%ca%e7%e7%b8%ae/", #融创天朗珑府
+            "http://esf.xian.fang.com/integrate/g23-kw%bd%f0%cc%a9%d0%c2%c0%ed%b3%c7/", #金泰新理城
+            "http://esf.xian.fang.com/integrate/g23-kw%b6%ab%b7%bd%c3%d7%c0%bc%b9%fa%bc%ca%b3%c7/", #东方米兰国际城
+        ]
 
     def tearDown(self):
         pass
 
     def test_go_to_home_page_and_search_for_blahblahblah(self):
-        # noinspection SpellCheckingInspection
-        result_url = "http://esf.xian.fang.com/house-a0482/g23-j280-k2140-l3010/" #高新+面积80/140+三室
-        self.driver.get(result_url)
-        self.__close_meng_ceng()
-
         file = open("fangdotcom-data-{0}.csv".format(datetime.now().strftime("%Y-%m-%d_%H-%M-%S")),"w")
         file.write(u'\ufeff')
 
-        condition = True
-        pageIndex = 1
-        while condition:
+        # noinspection SpellCheckingInspection
+        for target_url in self.target_urls: #house_list_items[:3]
+            self.driver.get(target_url)
+            self.__close_meng_ceng()
 
-            pageItemCount = 0            
-            # Find element :house-list-item
-            house_list_items = self.driver.find_elements_by_css_selector(self.HOUSE_LIST_ITEMS_CSS_LOCATOR)
+            condition = True
+            pageIndex = 1
+            while condition:
 
-            for house_list_item in house_list_items: #house_list_items[:3]
+                pageItemCount = 0
+                # Find element :house-list-item
+                house_list_items = self.driver.find_elements_by_css_selector(self.HOUSE_LIST_ITEMS_CSS_LOCATOR)
 
-                pageItemCount += 1
-                # move to element
-                ActionChains(self.driver).move_to_element(house_list_item).perform()
+                for house_list_item in house_list_items: #house_list_items[:3]
 
-                # Find element : house-details-link
-                element = house_list_item.find_element_by_css_selector(self.HOUSE_ITEM_LINK_CSS_LOCATOR)
-                subPageUrl = element.get_attribute("href")
-                
-                response = requests.get(subPageUrl)
-                soup = BeautifulSoup(response.text,'html.parser')
-                houseInfoJson = self.__parse_house_info(soup, subPageUrl)
-                theValues = []
-                for attribute, value in houseInfoJson.items():
-                    theValues.append(value)
+                    pageItemCount += 1
+                    # move to element
+                    ActionChains(self.driver).move_to_element(house_list_item).perform()
 
-                houseInfoStr = json.dumps(houseInfoJson)
-                theResult = ",".join(theValues)
-                print(theResult)
-                print("{0}:{1} {2}".format(pageIndex, pageItemCount, subPageUrl))
-                
-                file.write(theResult)
-                file.write("\r\n")
+                    # Find element : house-details-link
+                    element = house_list_item.find_element_by_css_selector(self.HOUSE_ITEM_LINK_CSS_LOCATOR)
+                    subPageUrl = element.get_attribute("href")
+                    
+                    response = requests.get(subPageUrl)
+                    soup = BeautifulSoup(response.text,'html.parser')
+                    houseInfoJson = self.__parse_house_info(soup, subPageUrl)
+                    theValues = []
+                    for attribute, value in houseInfoJson.items():
+                        theValues.append(value)
 
-                time.sleep(0.2)
-                self.driver.switch_to.window(self.driver.window_handles[0])
-                print(self.driver.current_url)
+                    houseInfoStr = json.dumps(houseInfoJson)
+                    theResult = ",".join(theValues)
+                    print(theResult)
+                    print("{0}:{1} {2}".format(pageIndex, pageItemCount, subPageUrl))
+                    
+                    file.write(theResult)
+                    file.write("\r\n")
 
-                # time.sleep(0.5)
-                print("========================")
-
-            pageIndex += 1
-            # is there a next page?
-            try:
-                next_page_element = self.driver.find_element_by_css_selector(self.NEXT_PAGE_ELEMENT_CSS_LOCATOR)
-                if next_page_element:
-                    print("### GO to next page:")
-                    ActionChains(self.driver).move_to_element(next_page_element).perform()
-                    time.sleep(0.9)
-                    ActionChains(self.driver).click(next_page_element).perform()
+                    time.sleep(0.2)
+                    self.driver.switch_to.window(self.driver.window_handles[0])
                     print(self.driver.current_url)
-            except Exception as e:
-                condition = False
-                print(e)
-                print("### 'Next-Page button is not available', so this's the last page:")
 
-            # input("Press Enter to continue ...")
-        file.close()
+                    # time.sleep(0.5)
+                    print("========================")
+
+                pageIndex += 1
+                # is there a next page?
+                try:
+                    next_page_element = self.driver.find_element_by_css_selector(self.NEXT_PAGE_ELEMENT_CSS_LOCATOR)
+                    if next_page_element:
+                        print("### GO to next page:")
+                        ActionChains(self.driver).move_to_element(next_page_element).perform()
+                        time.sleep(0.9)
+                        ActionChains(self.driver).click(next_page_element).perform()
+                        print(self.driver.current_url)
+                except Exception as e:
+                    condition = False
+                    print(e)
+                    print("### 'Next-Page button is not available', so this's the last page:")
+
+                # input("Press Enter to continue ...")
+            file.close()
 
 
     def test_some_stuff(self):
