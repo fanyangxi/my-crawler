@@ -25,8 +25,8 @@ class FangDotcomCrawlerTest(unittest.TestCase):
     def setUpClass(cls):
         # cls.driver = webdriver.PhantomJS("/usr/local/Cellar/phantomjs/2.1.1/bin/phantomjs")
         options = webdriver.ChromeOptions()
-        # options.add_argument('--headless')
-        # options.add_argument('--disable-gpu')
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1920,1080')
         options.add_argument('--no-sandbox')
         cls.driver = webdriver.Chrome(chrome_options=options)
@@ -99,42 +99,25 @@ class FangDotcomCrawlerTest(unittest.TestCase):
 
                     # Find element : house-details-link
                     element = house_list_item.find_element_by_css_selector(self.HOUSE_ITEM_LINK_CSS_LOCATOR)
-                    # Open the new tab
-                    ActionChains(self.driver).key_down(Keys.COMMAND).click(element).key_up(Keys.COMMAND).perform()
-                        
-                    # 1.Parent-Tab::Current
-                    print(self.driver.current_url)
+                    subPageUrl = element.get_attribute("href")
 
-                    # 2.Sub-Tab::Switch to next-to right tab
-                    time.sleep(0.2)
-                    self.driver.switch_to.window(self.driver.window_handles[1])
-                    houseInfoJson = self.__parse_house_info(self.driver.page_source, self.driver.current_url)
+                    # retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[ 500, 502, 503, 504 ])
+                    # requestSession = requests.Session()
+                    # requestSession.mount('http://', HTTPAdapter(max_retries=retries))
+                    # print(subPageUrl)
+                    response = requests.get(subPageUrl)
+                    houseInfoJson = self.__parse_house_info(response.text, subPageUrl)
                     theValues = []
                     for attribute, value in houseInfoJson.items():
                         theValues.append(value)
+
                     houseInfoStr = json.dumps(houseInfoJson)
                     theResult = ",".join(theValues)
                     print(theResult)
-                    print("{0}:{1} {2}".format(pageIndex, pageItemCount, self.driver.current_url))
+                    print("{0}:{1} {2}".format(pageIndex, pageItemCount, subPageUrl))
+                    
                     file.write(theResult)
                     file.write("\r\n")
-
-                    # 3.Parent-Tab::Close the next-to right tab and switch back to the original tab
-                    self.driver.close()
-
-
-
-                    # response = requests.get(subPageUrl)
-                    # houseInfoJson = self.__parse_house_info(response.text, subPageUrl)
-                    # theValues = []
-                    # for attribute, value in houseInfoJson.items():
-                    #     theValues.append(value)
-                    # houseInfoStr = json.dumps(houseInfoJson)
-                    # theResult = ",".join(theValues)
-                    # print(theResult)
-                    # print("{0}:{1} {2}".format(pageIndex, pageItemCount, subPageUrl))
-                    # file.write(theResult)
-                    # file.write("\r\n")
 
                     time.sleep(0.2)
                     self.driver.switch_to.window(self.driver.window_handles[0])
