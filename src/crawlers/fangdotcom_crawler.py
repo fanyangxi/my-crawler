@@ -100,8 +100,7 @@ class FangDotcomCrawlerTest(unittest.TestCase):
                     subPageUrl = element.get_attribute("href")
                     
                     response = requests.get(subPageUrl)
-                    soup = BeautifulSoup(response.text,'html.parser')
-                    houseInfoJson = self.__parse_house_info(soup, subPageUrl)
+                    houseInfoJson = self.__parse_house_info(response.text, subPageUrl)
                     theValues = []
                     for attribute, value in houseInfoJson.items():
                         theValues.append(value)
@@ -153,43 +152,47 @@ class FangDotcomCrawlerTest(unittest.TestCase):
         except Exception as e:
             pass
 
-    def __parse_house_info(self, soup, currentUrl):
+    def __parse_house_info(self, html, currentUrl):
+        soup = BeautifulSoup(html,'html.parser')
+        # fang_wu_lei_xing_css_selector = ["div.content-item.fydes-item > div.cont.clearfix > div:nth-of-type(4) > span.rcont"]
 
         title_css_selector = ["div.title.rel > div.floatl", "div.title.rel"]
-        fa_bu_shi_jian_css_selector = ["div.content-item.fydes-item > div.cont.clearfix > div:nth-of-type(7) > span.rcont"]
+        fa_bu_shi_jian_regex_selector = ["<span.*>挂牌时间<\/span>\s*<span.*>(.*)<\/span>"]
+        fang_yuan_bian_hao_regex_selector = ["<span.*>房源编号<\/span>\s*<span.*>(.*)<\/span>"]
+
         fang_wu_zong_jia_css_selector = ["div.tab-cont-right > div.tr-line.clearfix.zf_new_title > div.trl-item_top > div.trl-item.price_esf.sty1"]
+        suo_shu_xiao_qu_css_selector = ["div.tab-cont-right > div:nth-of-type(4) > div:nth-of-type(1) > div.rcont > div.floatl > a"]
+        suo_zai_wei_zhi_css_selector = ["div.tab-cont-right > div:nth-of-type(4) > div:nth-of-type(1) > div.rcont > div.floatl > span"]
+        jian_zao_nian_dai_regex_selector = ["<span.*>建筑年代<\/span>\s*<span.*>(.*)<\/span>"]
 
-        suo_shu_xiao_qu_css_selector = ["div.tab-cont-right > div:nth-of-type(4) > div:nth-of-type(1) > div.rcont > a.blue"]
-        suo_zai_wei_zhi_css_selector = ["div.tab-cont-right > div:nth-of-type(4) > div:nth-of-type(1) > div.rcont > span"]
-        jian_zao_nian_dai_css_selector = ["div.content-item.fydes-item > div.cont.clearfix > div:nth-of-type(1) > span.rcont"]
-        fang_wu_lei_xing_css_selector = ["div.content-item.fydes-item > div.cont.clearfix > div:nth-of-type(4) > span.rcont"]
-
-        fang_wu_hu_xing_css_selector = ["div.tab-cont-right > div:nth-of-type(2) > div.trl-item1.w146 > div.tt"]
-        jian_zhu_mian_ji_css_selector = ["div.tab-cont-right > div:nth-of-type(2) > div.trl-item1.w182 > div.tt"]
-        fang_wu_chao_xiang_css_selector = ["div.tab-cont-right > div:nth-of-type(3) > div.trl-item1.w146 > div.tt"]
-        suo_zai_lou_ceng_css_selector = ["div.tab-cont-right > div:nth-of-type(3) > div.trl-item1.w182"]
-
-        zhuang_xiu_cheng_du_css_selector = ["div.tab-cont-right > div:nth-of-type(3) > div.trl-item1.w132 > div.tt"]
-        fang_wu_dan_jia_css_selector = ["div.tab-cont-right > div:nth-of-type(2) > div.trl-item1.w132 > div.tt"]
+        fang_wu_hu_xing_regex_selector = ["<div.*>(.*)<\/div>\s*<div.*>户型<\/div>"] #房屋户型
+        jian_zhu_mian_ji_regex_selector = ["<div.*>(.*)<\/div>\s*<div.*>建筑面积<\/div>"] #建筑面积
+        fang_wu_chao_xiang_regex_selector = ["<div.*>(.*)<\/div>\s*<div.*>朝向<\/div>"] #房屋朝向
+        suo_zai_lou_ceng_regex_selector = ["<div.*>(.*)<\/div>\s*<div.*>楼层.*<\/div>"]
+        zhuang_xiu_cheng_du_regex_selector = ["<div.*>(.*)<\/div>\s*<div.*>装修<\/div>"]
+        fang_wu_dan_jia_regex_selector = ["<div.*>(.*)<\/div>\s*<div.*>单价<\/div>"]
         can_kao_shou_fu_css_selector = ["div.tab-cont-right > div.tr-line.clearfix.zf_new_title > div.trl-item_top > div:nth-of-type(2)"]
         can_kao_yue_gong_css_selector = ["div.tab-cont-right > div.tr-line.clearfix.zf_new_title > div.trl-item_top > div:nth-of-type(3) > a > div > span"]
 
+        hu_xing_jie_gou_regex_selector = ["<span.*>户型结构<\/span>\s*<span.*>(.*)<\/span>"]
+
         houseInfo = {
             "Title": self.__get_inner_text_by_css_selectors(soup, title_css_selector),
-            "fa_bu_shi_jian": self.__get_inner_text_by_css_selectors(soup, fa_bu_shi_jian_css_selector),
+            "fa_bu_shi_jian": self.__get_inner_text_by_regex_selectors(html, fa_bu_shi_jian_regex_selector),
+            "fang_yuan_bian_hao": self.__get_inner_text_by_regex_selectors(html, fang_yuan_bian_hao_regex_selector),
             "fang_wu_zong_jia": self.__get_inner_text_by_css_selectors(soup, fang_wu_zong_jia_css_selector), #房屋总价
             "suo_shu_xiao_qu": self.__get_inner_text_by_css_selectors(soup, suo_shu_xiao_qu_css_selector), #所属小区, innerHTML
             "suo_zai_wei_zhi": self.__get_inner_text_by_css_selectors(soup, suo_zai_wei_zhi_css_selector), #所在位置
-            "jian_zao_nian_dai": self.__get_inner_text_by_css_selectors(soup, jian_zao_nian_dai_css_selector), #建造年代
-            "fang_wu_lei_xing": self.__get_inner_text_by_css_selectors(soup, fang_wu_lei_xing_css_selector), #房屋类型
-            "fang_wu_hu_xing": self.__get_inner_text_by_css_selectors(soup, fang_wu_hu_xing_css_selector), #房屋户型
-            "jian_zhu_mian_ji": self.__get_inner_text_by_css_selectors(soup, jian_zhu_mian_ji_css_selector), #建筑面积
-            "fang_wu_chao_xiang": self.__get_inner_text_by_css_selectors(soup, fang_wu_chao_xiang_css_selector), #房屋朝向
-            "suo_zai_lou_ceng": self.__get_inner_text_by_css_selectors(soup, suo_zai_lou_ceng_css_selector), #所在楼层
-            "zhuang_xiu_cheng_du": self.__get_inner_text_by_css_selectors(soup, zhuang_xiu_cheng_du_css_selector), #装修程度
-            "fang_wu_dan_jia": self.__get_inner_text_by_css_selectors(soup, fang_wu_dan_jia_css_selector), #房屋单价
+            "jian_zao_nian_dai": self.__get_inner_text_by_regex_selectors(html, jian_zao_nian_dai_regex_selector), #建造年代
+            "fang_wu_hu_xing": self.__get_inner_text_by_regex_selectors(html, fang_wu_hu_xing_regex_selector), #房屋户型
+            "jian_zhu_mian_ji": self.__get_inner_text_by_regex_selectors(html, jian_zhu_mian_ji_regex_selector), #建筑面积
+            "fang_wu_chao_xiang": self.__get_inner_text_by_regex_selectors(html, fang_wu_chao_xiang_regex_selector), #房屋朝向
+            "suo_zai_lou_ceng": self.__get_inner_text_by_regex_selectors(html, suo_zai_lou_ceng_regex_selector), #所在楼层
+            "zhuang_xiu_cheng_du": self.__get_inner_text_by_regex_selectors(html, zhuang_xiu_cheng_du_regex_selector), #装修程度
+            "fang_wu_dan_jia": self.__get_inner_text_by_regex_selectors(html, fang_wu_dan_jia_regex_selector), #房屋单价
             "can_kao_shou_fu": self.__get_inner_text_by_css_selectors(soup, can_kao_shou_fu_css_selector), #参考首付
             "can_kao_yue_gong": self.__get_inner_text_by_css_selectors(soup, can_kao_yue_gong_css_selector), #参考月供
+            "fang_wu_lei_xing": self.__get_inner_text_by_regex_selectors(html, hu_xing_jie_gou_regex_selector), #户型结构
             "URL": currentUrl
         }
         return houseInfo
@@ -201,6 +204,19 @@ class FangDotcomCrawlerTest(unittest.TestCase):
         for cssSelector in cssSelectors:
             try:
                 result = soup.select_one(cssSelector).text
+                return re.sub(r"[\\n\\t\s,]*", "", result)
+            except Exception as e:
+                pass
+        return ""
+
+    def __get_inner_text_by_regex_selectors(self, html, regexSelectors):
+        for regexSelector in regexSelectors:
+            try:
+                match = re.search(regexSelector, html)
+                if match is not None:
+                    result = match.group(1)
+                else:
+                    result = ""
                 return re.sub(r"[\\n\\t\s,]*", "", result)
             except Exception as e:
                 pass
