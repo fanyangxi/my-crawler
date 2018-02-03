@@ -136,7 +136,9 @@ class FangDotcomCrawlerTest(unittest.TestCase):
                     print("### 'Next-Page button is not available', so this's the last page:")
 
                 # input("Press Enter to continue ...")
-            file.close()
+
+        print("closing file....")
+        file.close()
 
 
     def test_some_stuff(self):
