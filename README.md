@@ -8,21 +8,21 @@ https://scalegrid.io/blog/data-visualization-using-apache-zeppelin/
 ### To prepare & run the project:
 
 # Install pip3:
-$ yum install python34
-$ yum install python34-setuptools
-$ python3 -m pip install -U --force-reinstall pip
+> yum install python34  
+> yum install python34-setuptools  
+> python3 -m pip install -U --force-reinstall pip  
 
 # To install the chromedriver
-$ brew install chromedriver
+> brew install chromedriver
 
 # To find the path to chromedriver
 Usually: /usr/local/Cellar/chromedriver/2.19/bin/chromedriver
 
 # To install the requirements
-$ pip3 install -r requirements.txt
+> pip3 install -r requirements.txt
 
 # How to RUN, at the repo-root:
-$ python main.py
+> python main.py
 
 
 https://github.com/lojp/fangtianxia/blob/master/fangtianxiagithub.py
